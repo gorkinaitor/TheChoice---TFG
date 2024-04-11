@@ -1,3 +1,5 @@
-# TheChoice---TFG
+# TheChoice - TFG
 
-### Realizado por Victor Clavería y Gorka Larrañaga. Una app desarrollada mediante el framework Flutter
+## ¿Qúe es The Choice?
+Es una app que (confidencial). El objetivo de este proyecto es aprobar el trabajo final de grado. 
+![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.]()
