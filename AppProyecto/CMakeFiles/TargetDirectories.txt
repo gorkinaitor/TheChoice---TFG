@@ -1,0 +1,14 @@
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/CMakeFiles/applicacion_tfg.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/CMakeFiles/edit_cache.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/CMakeFiles/rebuild_cache.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/CMakeFiles/list_install_components.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/CMakeFiles/install.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/CMakeFiles/install/local.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/CMakeFiles/install/strip.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/flutter/CMakeFiles/flutter_assemble.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/flutter/CMakeFiles/edit_cache.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/flutter/CMakeFiles/rebuild_cache.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/flutter/CMakeFiles/list_install_components.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/flutter/CMakeFiles/install.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/flutter/CMakeFiles/install/local.dir
+/home/Gorka/Documentos/GitHub/TheChoice---TFG/AppProyecto/flutter/CMakeFiles/install/strip.dir

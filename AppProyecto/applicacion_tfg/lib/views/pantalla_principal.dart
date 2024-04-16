@@ -7,6 +7,7 @@ class pantallaPrincipal extends StatefulWidget {
   State<pantallaPrincipal> createState() => _pantallaPrincipalState();
 }
 
+// ignore: camel_case_types
 class _pantallaPrincipalState extends State<pantallaPrincipal> {
   //Esto nos vale para controlar la opcion que esta seleccionada por defecto.
   //Esto va como un array donde el orden es el del codigo, en este caso nuestra primera opcion
@@ -19,9 +20,28 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
         .colorScheme; // Esto hereda el color definido en el main
 
     return Scaffold(
-      body: const Center(
-        //Que lo que vayamos a poner este centrado
-        child: Text('Israel no es un estado legítimo'), //Pues no se, un texto
+      backgroundColor: Colors.purple[100],
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'The Choice',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.logout),
+              color: Colors.white,
+            ),
+          ),
+        ],
+        backgroundColor: Colors.purple[700],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType
@@ -41,7 +61,7 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
             icon: const Icon(Icons.home_outlined),
             activeIcon: const Icon(Icons.home),
             label: 'Inicio',
-            backgroundColor: colors.primary,
+            backgroundColor: Colors.purple[200],
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outline),
@@ -49,13 +69,29 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
             label: 'Favoritos',
             backgroundColor: Color.fromARGB(255, 240, 28, 13),
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.message_outlined),
-            activeIcon: const Icon(Icons.message),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.message_outlined),
+            activeIcon: Icon(Icons.message),
             label: 'Mensajes',
-            backgroundColor: colors.tertiary,
+            backgroundColor: Colors.blue,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: TextField(
+        decoration: InputDecoration(
+          labelText: 'Buscar',
+          border: OutlineInputBorder(),
+          prefixIcon: Icon(Icons.search),
+        ),
       ),
     );
   }
