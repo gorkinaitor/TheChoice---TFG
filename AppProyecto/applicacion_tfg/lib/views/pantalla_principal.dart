@@ -18,9 +18,8 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context)
         .colorScheme; // Esto hereda el color definido en el main
-
     return Scaffold(
-      backgroundColor: Colors.purple[100],
+      backgroundColor: Colors.red[100],
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
