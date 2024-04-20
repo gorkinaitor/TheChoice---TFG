@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class pantallaPrincipal extends StatefulWidget {
-  const pantallaPrincipal({super.key});
+class PantallaPrincipal extends StatefulWidget {
+  const PantallaPrincipal({super.key});
 
   @override
-  State<pantallaPrincipal> createState() => _pantallaPrincipalState();
+  State<PantallaPrincipal> createState() => _PantallaPrincipalState();
 }
 
 // ignore: camel_case_types
-class _pantallaPrincipalState extends State<pantallaPrincipal> {
+class _PantallaPrincipalState extends State<PantallaPrincipal> {
   //Esto nos vale para controlar la opcion que esta seleccionada por defecto.
   //Esto va como un array donde el orden es el del codigo, en este caso nuestra primera opcion
   //es la primera escrita, por tanto la 0
@@ -19,11 +19,10 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
     //final colors = Theme.of(context)
     //  .colorScheme; // Esto hereda el color definido en el main
     return Scaffold(
-      backgroundColor: Colors.red[100],
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'The Choice',
+          'La Elección',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -32,15 +31,20 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 8.0),
+            padding: const EdgeInsets.only(right: 7.0),
             child: IconButton(
               onPressed: () {},
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               color: Colors.white,
             ),
           ),
         ],
         backgroundColor: Colors.purple[700],
+      ),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [BarraBusqueda()],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType
@@ -75,6 +79,76 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
             backgroundColor: Colors.blue,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class BarraBusqueda extends StatefulWidget {
+  const BarraBusqueda({
+    super.key,
+  });
+
+  @override
+  State<BarraBusqueda> createState() => _BarraBusquedaState();
+}
+
+class _BarraBusquedaState extends State<BarraBusqueda> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          FocusScope.of(context).requestFocus();
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width * 1,
+          padding: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey)),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                      hintText: 'Buscar...',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(left: 10)),
+                  onTap: () {
+                    // Esto evita que se cierre el teclado cuando se toca el TextField
+                    Future.delayed(Duration.zero, () {
+                      _controller.selection = TextSelection(
+                          baseOffset: 0, extentOffset: _controller.text.length);
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

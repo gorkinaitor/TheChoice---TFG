@@ -18,7 +18,7 @@ class Principal extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 233, 230, 68)),
         useMaterial3: true,
       ),
-      home: const pantallaPrincipal(),
+      home: const PantallaPrincipal(),
     );
   }
 }
