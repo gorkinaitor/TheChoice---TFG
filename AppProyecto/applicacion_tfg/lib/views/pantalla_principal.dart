@@ -16,8 +16,8 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context)
-        .colorScheme; // Esto hereda el color definido en el main
+    //final colors = Theme.of(context)
+    //  .colorScheme; // Esto hereda el color definido en el main
     return Scaffold(
       backgroundColor: Colors.red[100],
       appBar: AppBar(
@@ -75,22 +75,6 @@ class _pantallaPrincipalState extends State<pantallaPrincipal> {
             backgroundColor: Colors.blue,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class SearchBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: TextField(
-        decoration: InputDecoration(
-          labelText: 'Buscar',
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.search),
-        ),
       ),
     );
   }
