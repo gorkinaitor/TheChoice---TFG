@@ -1,96 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:applicacion_tfg/controllers/login.dart';
+import 'package:applicacion_tfg/views/components/barra_busqueda.dart';
 
-class pantallaPrincipal extends StatefulWidget {
-  const pantallaPrincipal({super.key});
+class PantallaPrincipal extends StatefulWidget {
+  const PantallaPrincipal({Key? key}) : super(key: key);
 
   @override
-  State<pantallaPrincipal> createState() => _pantallaPrincipalState();
+  State<PantallaPrincipal> createState() => _PantallaPrincipalState();
 }
 
-// ignore: camel_case_types
-class _pantallaPrincipalState extends State<pantallaPrincipal> {
-  //Esto nos vale para controlar la opcion que esta seleccionada por defecto.
-  //Esto va como un array donde el orden es el del codigo, en este caso nuestra primera opcion
-  //es la primera escrita, por tanto la 0
+class _PantallaPrincipalState extends State<PantallaPrincipal> {
   int opcSeleccionada = 0;
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context)
-        .colorScheme; // Esto hereda el color definido en el main
-
     return Scaffold(
-      backgroundColor: Colors.purple[100],
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'The Choice',
+          'La Elección',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.logout),
-              color: Colors.white,
-            ),
-          ),
-        ],
         backgroundColor: Colors.purple[700],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType
-            .shifting, //Animacion de lo que hace la barra de tareas
-        currentIndex: //El indice, que define que opcion esta seleccionada, para relacionarla en un futuro
-            opcSeleccionada, //Esto atributo define que pestaña esta seleccionada
-        onTap: (valorActual) => {
-          //Registra cuando se presiona una accion (como un onclick)
-          setState(() {
-            opcSeleccionada = valorActual;
-          })
-        },
-        elevation: 0, //Quita la linea del menu
-        items: [
-          //Cada objeto del menu de abajo
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined),
-            activeIcon: const Icon(Icons.home),
-            label: 'Inicio',
-            backgroundColor: Colors.purple[200],
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
-            activeIcon: Icon(Icons.favorite),
-            label: 'Favoritos',
-            backgroundColor: Color.fromARGB(255, 240, 28, 13),
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.message_outlined),
-            activeIcon: Icon(Icons.message),
-            label: 'Mensajes',
-            backgroundColor: Colors.blue,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SearchBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: TextField(
-        decoration: InputDecoration(
-          labelText: 'Buscar',
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.search),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [BarraBusqueda()],
         ),
       ),
     );
