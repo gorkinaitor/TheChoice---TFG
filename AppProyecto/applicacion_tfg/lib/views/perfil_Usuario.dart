@@ -15,7 +15,16 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tu perfil'),
+        centerTitle: true,
+        title: const Text(
+          'Tu perfil',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+        backgroundColor: Color.fromARGB(255, 235, 214, 26),
       ),
       body: Center(
           child: Column(
