@@ -11,21 +11,21 @@ class BarraNav extends StatelessWidget {
     return Scaffold(
       body: navegacionConEstado,
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         currentIndex: navegacionConEstado.currentIndex,
         onTap: (index) {
           navegacionConEstado.goBranch(index);
         },
-        backgroundColor: Colors.amber,
+        backgroundColor: Color.fromARGB(255, 224, 212, 221),
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.home_outlined),
-            activeIcon: const Icon(Icons.home),
+            activeIcon: const Icon(Icons.home_filled),
             label: 'Inicio',
             backgroundColor: Colors.purple[200],
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined),
+            icon: Icon(Icons.person_outline),
             activeIcon: const Icon(Icons.person),
             label: 'Perfil',
             backgroundColor: Color.fromRGBO(255, 200, 1,1),
@@ -42,6 +42,11 @@ class BarraNav extends StatelessWidget {
               label: 'Mensajes',
               backgroundColor: Colors.lightBlueAccent 
               ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.publish_outlined),
+            activeIcon: Icon(Icons.upload),
+            label: 'Subir Producto',
+          ),
         ],
       ),
     );

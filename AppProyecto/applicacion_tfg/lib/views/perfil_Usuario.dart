@@ -16,8 +16,9 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Tu perfil',
-        style: TextStyle(
+        title: const Text(
+          'Tu perfil',
+          style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
