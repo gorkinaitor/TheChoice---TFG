@@ -73,7 +73,7 @@ class _LoginState extends State<Login> {
     final googleAuth = await googleUser.authentication;
     final accessToken = googleAuth.accessToken;
     final idToken = googleAuth.idToken;
-
+    
     final correo = googleUser.email;
     final String? foto = googleUser.photoUrl;
 

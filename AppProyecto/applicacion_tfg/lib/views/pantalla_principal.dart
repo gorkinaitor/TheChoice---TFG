@@ -15,10 +15,11 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 209, 209, 209),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'La Elección',
+          'The Choice',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

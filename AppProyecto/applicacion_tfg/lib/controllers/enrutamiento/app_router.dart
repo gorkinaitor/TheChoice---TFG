@@ -1,3 +1,4 @@
+import 'package:applicacion_tfg/views/mensajes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applicacion_tfg/views/pantalla_principal.dart';
@@ -24,6 +25,22 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/perfilUsuario',
               builder: (context, state) => PerfilUsuario(),
+            ),
+          ],
+        ),
+         StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/configuracion',
+              builder: (context, state) => PerfilUsuario(),
+            ),
+          ],
+        ),
+         StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/mensajes',
+              builder: (context, state) => Mensajes(),
             ),
           ],
         ),

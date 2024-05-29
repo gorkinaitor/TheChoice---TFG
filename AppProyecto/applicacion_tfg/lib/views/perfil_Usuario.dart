@@ -15,7 +15,15 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tu perfil'),
+        centerTitle: true,
+        title: const Text('Tu perfil',
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+        backgroundColor: Colors.amber,
       ),
       body: Center(
           child: Column(
@@ -40,14 +48,16 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               },
             ),
           ),
-          Text(
-            'Correo Electronico: $_correo',
-            style: TextStyle(fontSize: 15),
-          ),
-          Text(
-            'Token de Google: $_googleToken',
-            style: TextStyle(fontSize: 10),
-          ),
+          if(_correo != null) ...[
+            Text(
+              'Correo Electronico: $_correo',
+              style: TextStyle(fontSize: 15),
+            ),
+            Text(
+              'Token de Google: $_googleToken',
+              style: TextStyle(fontSize: 10),
+            ),
+          ],
           _foto != null
               ? Image.network(
                   _foto!,
