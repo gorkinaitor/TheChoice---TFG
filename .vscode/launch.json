@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "applicacion_tfg",
+            "cwd": "AppProyecto/applicacion_tfg",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "applicacion_tfg (profile mode)",
+            "cwd": "AppProyecto/applicacion_tfg",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "applicacion_tfg (release mode)",
+            "cwd": "AppProyecto/applicacion_tfg",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
