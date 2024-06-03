@@ -1,4 +1,6 @@
+import 'package:applicacion_tfg/views/pantalla_producto.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class lista extends StatefulWidget {
   const lista({
@@ -30,10 +32,15 @@ class _ListaState extends State<lista> {
       mainAxisSpacing: 8.0,
       crossAxisSpacing: 8.0,
       padding: const EdgeInsets.all(8.0),
-      children: items.map((item) {
-        return Container(
+      children: 
+      items.map((item) {
+        return GestureDetector(
+          onTap: (){
+            context.go('/pantallaProducto');
+          },
+          child: Container(
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: Colors.blueGrey,
             borderRadius: BorderRadius.circular(15),
           ),
           child: Column(
@@ -69,6 +76,7 @@ class _ListaState extends State<lista> {
               )
             ],
           ),
+        )
         );
       }).toList(),
     ));

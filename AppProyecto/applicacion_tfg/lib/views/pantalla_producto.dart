@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:applicacion_tfg/views/components/barra_busqueda.dart';
 
-class Mensajes extends StatefulWidget {
+class PantallaProducto extends StatefulWidget {
+  const PantallaProducto({Key? key}) : super(key: key);
+
   @override
-  State<Mensajes> createState() => _MensajesState();
+  State<PantallaProducto> createState() => _PantallaProductoState();
 }
 
-class _MensajesState extends State<Mensajes> {
+class _PantallaProductoState extends State<PantallaProducto> {
   
   @override
   Widget build(BuildContext context) {
@@ -14,14 +15,14 @@ class _MensajesState extends State<Mensajes> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Mensajes',
+          'Productos',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
           ),
         ),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Color.fromARGB(255, 221, 168, 108),
       ),
     );
   }

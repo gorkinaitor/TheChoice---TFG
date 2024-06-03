@@ -10,8 +10,6 @@ class PantallaPrincipal extends StatefulWidget {
 }
 
 class _PantallaPrincipalState extends State<PantallaPrincipal> {
-  int opcSeleccionada = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

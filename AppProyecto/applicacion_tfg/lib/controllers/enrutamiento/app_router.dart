@@ -1,4 +1,5 @@
-import 'package:applicacion_tfg/views/mensajes.dart';
+import 'package:applicacion_tfg/views/pantalla_mensajes.dart';
+import 'package:applicacion_tfg/views/pantalla_producto.dart';
 import 'package:flutter/material.dart';
 import 'package:applicacion_tfg/views/pantalla_ubicacion.dart';
 import 'package:go_router/go_router.dart';
@@ -33,8 +34,8 @@ final GoRouter appRouter = GoRouter(
          StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/configuracion',
-              builder: (context, state) => PerfilUsuario(),
+              path: '/pantallaUbicacion',
+              builder: (context, state) => PantallaUbicacion(),
             ),
           ],
         ),
@@ -42,16 +43,8 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/mensajes',
-              builder: (context, state) => Mensajes(),
+              builder: (context, state) => PantallaMensajes(),
             ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/pantallaUbicacion',
-              builder: (context, state) => PantallaUbicacion(),
-            )
           ],
         ),
         StatefulShellBranch(
@@ -68,6 +61,10 @@ final GoRouter appRouter = GoRouter(
     //RUTAS FUERA DE LA BARRA DE NAVEGACION INFERIOR
     GoRoute(
         path: '/pantallaUbicacion2',
-        builder: (context, state) => PantallaUbicacion())
+        builder: (context, state) => PantallaUbicacion()),
+
+    GoRoute(
+        path: '/pantallaProducto',
+        builder: (context, state) => PantallaProducto())   
   ],
 );
