@@ -1,7 +1,13 @@
+import 'package:applicacion_tfg/controllers/enrutamiento/app_router.dart';
+import 'package:applicacion_tfg/models/modelo_subir_producto.dart';
 import 'package:flutter/material.dart';
 import 'package:applicacion_tfg/controllers/login.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PerfilUsuario extends StatefulWidget {
+  final PaqueteSubida claseCompartida;
+  PerfilUsuario({required this.claseCompartida});
+
   @override
   State<PerfilUsuario> createState() => _PerfilUsuarioState();
 }
@@ -10,6 +16,11 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   String? _googleToken;
   String? _correo;
   String? _foto;
+  late SupabaseClient _supabase;
+
+  String? enviarCorreo() {
+    return _correo;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +44,14 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Login(
-              googleTokenUsuario: (token, correo, foto) {
+              googleTokenUsuario: (token, correo, foto, supabase) {
                 setState(() {
                   _googleToken = token;
                   _correo = correo;
                   _foto = foto;
+                  _supabase = supabase;
+                  paqueteSubida.setCorreo = correo;
+                  paqueteSubida.setSupabaseClient = _supabase;
                 });
               },
               onLogout: () {
@@ -45,6 +59,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                   _googleToken = null;
                   _correo = null;
                   _foto = null;
+                  paqueteSubida.setCorreo = "";
                 });
               },
             ),
