@@ -1,8 +1,14 @@
+import 'dart:io';
+import 'package:applicacion_tfg/controllers/enrutamiento/app_router.dart';
+import 'package:applicacion_tfg/models/modelo_subir_producto.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PantallaSubirProducto extends StatefulWidget {
-  const PantallaSubirProducto({super.key});
+  final PaqueteSubida claseCompartida;
+  PantallaSubirProducto({required this.claseCompartida});
 
   @override
   State<PantallaSubirProducto> createState() => _PantallaSubirProductoState();
@@ -11,6 +17,63 @@ class PantallaSubirProducto extends StatefulWidget {
 class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
   bool experiencia = false;
   String experienciaOAlojamiento = 'Alojamiento';
+  File? imagen;
+  final selectorImagen = ImagePicker();
+  String imagenTexto = "No se ha seleccionado ninguna imagen";
+  late String texto;
+
+  //VARIABLES PARA EXTRAER DATOS
+  TextEditingController? controlTextoTitulo = TextEditingController();
+  TextEditingController? controlTextoDescripcion = TextEditingController();
+  String? textoTitulo;
+  String? textoDescripcion;
+  String? correo;
+  bool producto = false;
+  File? archivoImagen;
+  String? nombreArchivo;
+  LatLng? ubicacionSeleccionada;
+
+  Future obtenerImagenGaleria() async {
+    final imagenSeleccionada = await selectorImagen.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
+
+    if (imagenSeleccionada != null) {
+      archivoImagen =
+          File(imagenSeleccionada.path); // Obtiene el archivo de la imagen
+      nombreArchivo = imagenSeleccionada.name; // Obtiene el nombre del archivo
+    }
+
+    setState(() {
+      if (imagenSeleccionada != null) {
+        imagen = File(imagenSeleccionada.path);
+        imagenTexto = "Imagen Seleccionada!";
+      } else {
+        print("Imagen no Seleccionada");
+      }
+    });
+  }
+
+  void mostrarAlerta(BuildContext context, String mensaje) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Detalles del Producto'),
+          content: Text(mensaje),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +110,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
+                      controller: controlTextoTitulo,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Introduce el título del producto',
@@ -55,6 +119,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                     const SizedBox(height: 20),
                     TextFormField(
                       maxLines: 4,
+                      controller: controlTextoDescripcion,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Introduce la descripción del producto',
@@ -64,7 +129,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Card(
               elevation: 4.0,
               child: Padding(
@@ -98,7 +163,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Card(
               elevation: 4.0,
               child: Column(
@@ -110,15 +175,15 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                     ),
                     title: const Text('Ubicación'),
                     subtitle: const Text('Selecciona la ubicación'),
-                    onTap: () {
-                      //
-                      context.push('/pantallaUbicacion2');
+                    onTap: () async {
+                      ubicacionSeleccionada =
+                          await context.push('/pantallaUbicacion2');
                     },
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Card(
               elevation: 4.0,
               child: Column(
@@ -126,14 +191,46 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                   ListTile(
                     leading: const Icon(Icons.image, color: Colors.purple),
                     title: const Text('Imágenes'),
-                    subtitle: const Text('Añade imágenes del producto'),
+                    subtitle: Text(imagenTexto),
                     onTap: () {
                       // Acción para añadir imágenes
+                      obtenerImagenGaleria();
                     },
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 10),
+            Center(
+              child: SizedBox(
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    textoTitulo = controlTextoTitulo?.text;
+                    textoDescripcion = controlTextoDescripcion?.text;
+
+                    //FALSE == ALOJAMIENTO, TRUE == EXPERIENCIA
+                    producto = experiencia;
+                    correo = paqueteSubida.getCorreo;
+
+                    texto =
+                        "$correo Titulo: $textoTitulo \n Descripcion: $textoDescripcion \n Producto: $producto \n RutaImagen: $archivoImagen \n NombreImagen: $nombreArchivo \n Ubicacion Coord: $ubicacionSeleccionada";
+
+                    paqueteSubida.setTitulo = textoTitulo!;
+                    paqueteSubida.setDescripcion = textoDescripcion!;
+                    paqueteSubida.setProducto = producto;
+                    paqueteSubida.setRutaImagen = archivoImagen!;
+                    paqueteSubida.setNombreImagen = nombreArchivo!;
+                    paqueteSubida.setCoord = ubicacionSeleccionada!;
+
+                    mostrarAlerta(context, texto);
+                    //paqueteSubida.subirDatos();
+                    paqueteSubida.subirImagen();
+                  },
+                  child: const Text("Subir Producto"),
+                ),
+              ),
+            )
           ],
         ),
       ),
