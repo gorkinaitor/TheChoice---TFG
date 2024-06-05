@@ -1,12 +1,15 @@
 import 'package:applicacion_tfg/views/pantalla_mensajes.dart';
 import 'package:applicacion_tfg/views/pantalla_producto.dart';
 import 'package:applicacion_tfg/views/pantalla_ubicacion.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applicacion_tfg/views/pantalla_principal.dart';
 import 'package:applicacion_tfg/views/perfil_Usuario.dart';
 import 'package:applicacion_tfg/views/components/barra_navegacion.dart';
 import 'package:applicacion_tfg/views/pantalla_subir_producto.dart';
+import 'package:applicacion_tfg/models/modelo_subir_producto.dart';
 
+final PaqueteSubida paqueteSubida = PaqueteSubida();
 final GoRouter appRouter = GoRouter(
   routes: [
     StatefulShellRoute.indexedStack(
@@ -26,7 +29,8 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/perfilUsuario',
-              builder: (context, state) => PerfilUsuario(),
+              builder: (context, state) =>
+                  PerfilUsuario(claseCompartida: paqueteSubida),
             ),
           ],
         ),
@@ -50,7 +54,8 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/pantallaSubirProducto',
-              builder: (context, state) => PantallaSubirProducto(),
+              builder: (context, state) =>
+                  PantallaSubirProducto(claseCompartida: paqueteSubida),
             )
           ],
         )
