@@ -10,6 +10,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   String? _googleToken;
   String? _correo;
   String? _foto;
+  bool isProvider = true;
 
   @override
   Widget build(BuildContext context) {

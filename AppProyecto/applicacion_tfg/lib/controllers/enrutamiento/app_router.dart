@@ -1,6 +1,5 @@
 import 'package:applicacion_tfg/views/pantalla_mensajes.dart';
 import 'package:applicacion_tfg/views/pantalla_producto.dart';
-import 'package:flutter/material.dart';
 import 'package:applicacion_tfg/views/pantalla_ubicacion.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applicacion_tfg/views/pantalla_principal.dart';

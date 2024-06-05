@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:applicacion_tfg/controllers/geolocalizacion.dart';
 import 'package:location/location.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PantallaUbicacion extends StatefulWidget {
   const PantallaUbicacion({Key? key}) : super(key: key);
@@ -55,40 +56,53 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) {
+      return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text(
-            'Selección de Ubicación',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
+          title: const Text('Selección de Ubicación'),
+        ),
+        body: const Center(
+          child: Text('No estás registrado. Por favor regístrate o inicia sesión.'),
+        ),
+      );
+    } else {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text(
+              'Selección de Ubicación',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+              ),
             ),
+            backgroundColor: const Color.fromARGB(255, 135, 238, 140),
+            actions: <Widget>[
+              IconButton(
+                onPressed: () {
+                  _goToUserLocation();
+                },
+                icon: const Icon(Icons.location_city),
+              )
+            ],
           ),
-          backgroundColor: const Color.fromARGB(255, 135, 238, 140),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                _goToUserLocation();
-              },
-              icon: const Icon(Icons.location_city),
-            )
-          ],
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: ubicacionInicial,
-            zoom: 15.0,
+          body: GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: ubicacionInicial,
+              zoom: 15.0,
+            ),
+            markers: marcadores,
+            onTap: pulsarMapa,
           ),
-          markers: marcadores,
-          onTap: pulsarMapa,
         ),
-      ),
-    );
+      );
+    }
   }
 }
 

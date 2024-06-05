@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:applicacion_tfg/views/components/barra_busqueda.dart';
 
 class PantallaMensajes extends StatefulWidget {
   const PantallaMensajes({Key? key}) : super(key: key);
