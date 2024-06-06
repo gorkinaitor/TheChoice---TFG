@@ -1,7 +1,6 @@
 import 'package:applicacion_tfg/views/pantalla_mensajes.dart';
 import 'package:applicacion_tfg/views/pantalla_producto.dart';
 import 'package:applicacion_tfg/views/pantalla_ubicacion.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applicacion_tfg/views/pantalla_principal.dart';
 import 'package:applicacion_tfg/views/perfil_Usuario.dart';
@@ -21,7 +20,8 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/',
-              builder: (context, state) => PantallaPrincipal(),
+              builder: (context, state) =>
+                  PantallaPrincipal(claseCompartida: paqueteSubida),
             ),
           ],
         ),
