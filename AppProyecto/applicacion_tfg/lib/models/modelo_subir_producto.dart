@@ -2,6 +2,18 @@ import 'dart:io';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
+
+class ArrancarSupabase {
+  static Future<void> inicializarSupabase() async {
+    await Supabase.initialize(
+        url: 'https://wbevjccsvzkvsjhldqzr.supabase.co',
+        anonKey:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiZXZqY2NzdnprdnNqaGxkcXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUzODA0OTUsImV4cCI6MjAzMDk1NjQ5NX0.92_MWRERudonOtClITiVUgHti_etGgkwWv3HXzJYmL0');
+  }
+
+  static final supabase = Supabase.instance.client;
+}
 
 class PaqueteSubida {
   //INICIALIZACION DE TODAS LAS VARIABLES NECESARIAS
@@ -12,7 +24,8 @@ class PaqueteSubida {
   late File rutaImagen;
   late String nombreImagen;
   late LatLng coord;
-  late SupabaseClient supabase;
+  late SupabaseClient supabase = supabase;
+  late String urlFoto = "";
 
   //GETTERS DE TODAS LAS VARIABLES NECESARIAS
   String get getCorreo => correo;
@@ -67,28 +80,31 @@ class PaqueteSubida {
         'rutaImagen': nombreImagen,
         'latitud': coord.latitude,
         'longitud': coord.longitude,
+        'rutaurl': urlFoto,
       }
     ]);
-
-    if (response.error != null) {
-      throw Exception('Error al subir datos: ${response.error!.message}');
-    }
   }
 
   Future<void> subirImagen() async {
+    var uuid = Uuid();
+    String idUnico = uuid.v4();
     final File imagenSubir = rutaImagen;
-    print(await supabase.auth.getUser());
 
-    String? user = (await supabase.auth.getUser()) as String?;
-    /*
+    final UserResponse userResponse = await supabase.auth.getUser();
+    final User? user = userResponse.user;
+    //print('User ID: ${user?.id}');
 
-    final supabaseUrl = 'https://wbevjccsvzkvsjhldqzr.supabase.co';
-    final supabaseKey =
-        'yeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiZXZqY2NzdnprdnNqaGxkcXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUzODA0OTUsImV4cCI6MjAzMDk1NjQ5NX0.92_MWRERudonOtClITiVUgHti_etGgkwWv3HXzJYmL0';
-    final supabaseClient = SupabaseClient(supabaseUrl, supabaseKey);
-    final storage = supabaseClient.storage.from('prueba');
-    final response = await storage.upload('/my-image.jpg', rutaImagen);
+    final almacenamiento = supabase.storage.from('prueba');
 
-    */
+    final response = await almacenamiento.upload(
+        'misImagenes/${user?.id}/my-image-$idUnico.jpg', imagenSubir);
+
+    final publicUrlResponse = almacenamiento
+        .getPublicUrl('misImagenes/${user?.id}/my-image-$idUnico.jpg');
+
+    urlFoto = publicUrlResponse;
+    print("url: pito $urlFoto");
+
+    subirDatos();
   }
 }

@@ -4,17 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:applicacion_tfg/models/modelo_subir_producto.dart';
 
-class ArrancarSupabase {
-  static Future<void> inicializarSupabase() async {
-    await Supabase.initialize(
-        url: 'https://wbevjccsvzkvsjhldqzr.supabase.co',
-        anonKey:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndiZXZqY2NzdnprdnNqaGxkcXpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUzODA0OTUsImV4cCI6MjAzMDk1NjQ5NX0.92_MWRERudonOtClITiVUgHti_etGgkwWv3HXzJYmL0');
-  }
-
-  static final supabase = Supabase.instance.client;
-}
-
 class Login extends StatefulWidget {
   final Function(String, String, String?, SupabaseClient)? googleTokenUsuario;
   final Function()? onLogout;

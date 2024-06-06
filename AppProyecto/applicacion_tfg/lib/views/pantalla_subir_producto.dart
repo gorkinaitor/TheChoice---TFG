@@ -224,7 +224,6 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                     paqueteSubida.setCoord = ubicacionSeleccionada!;
 
                     mostrarAlerta(context, texto);
-                    //paqueteSubida.subirDatos();
                     paqueteSubida.subirImagen();
                   },
                   child: const Text("Subir Producto"),
