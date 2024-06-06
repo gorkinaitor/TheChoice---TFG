@@ -6,7 +6,6 @@ import 'package:applicacion_tfg/main.dart'; // Asegúrate de importar supabase
 
 import 'package:go_router/go_router.dart';
 
-
 class Lista extends StatefulWidget {
   final PaqueteSubida claseCompartida;
   Lista({required this.claseCompartida});
@@ -32,11 +31,8 @@ class _ListaState extends State<Lista> {
     probarListas();
   }
 
-  
   @override
   Widget build(BuildContext context) {
-  
-  /*
     return Scaffold(
       body: items.isEmpty
           ? Center(child: CircularProgressIndicator())
@@ -46,107 +42,108 @@ class _ListaState extends State<Lista> {
               crossAxisSpacing: 8.0,
               padding: const EdgeInsets.all(8.0),
               children: items.map((item) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Image.network(
-                          item['rutaurl']!,
-                          height: 100,
-                          width: 130,
-                          fit: BoxFit.fill,
-                        ),
+                return GestureDetector(
+                    onTap: () {
+                      context.go('/pantallaProducto');
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blueGrey,
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        item['titulo'] ?? 'No Title',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(7),
+                            child: Image.network(
+                              item['rutaurl']!,
+                              height: 100,
+                              width: 130,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            item['titulo'] ?? 'No Title',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            item['descripcion'] ?? 'No Description',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        item['descripcion'] ?? 'No Description',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                );
+                    ));
               }).toList(),
             ),
     );
-    
-    */
 
+/*
     return Container(
         child: GridView.extent(
       maxCrossAxisExtent: 200.0,
       mainAxisSpacing: 8.0,
       crossAxisSpacing: 8.0,
       padding: const EdgeInsets.all(8.0),
-      children: 
-      items.map((item) {
+      children: items.map((item) {
         return GestureDetector(
-          onTap: (){
-            context.go('/pantallaProducto');
-          },
-          child: Container(
-          decoration: BoxDecoration(
-            color: Colors.blueGrey,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(7),
-                child: Image.network(
-                  item['rutaurl']!,
-                  height: 100,
-                  width: 130,
-                  fit: BoxFit.fill,
-                ),
+            onTap: () {
+              context.go('/pantallaProducto');
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+                borderRadius: BorderRadius.circular(15),
               ),
-              SizedBox(height: 8),
-              Text(
-                item['titulo']!,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(7),
+                    child: Image.network(
+                      item['rutaurl']!,
+                      height: 100,
+                      width: 130,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    item['titulo']!,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    item['descripcion']!,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                ],
               ),
-              const SizedBox(height: 4),
-              Text(
-                item['descripcion']!,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
-        )
-        );
+            ));
       }).toList(),
     ));
-
+  */
   }
 }
