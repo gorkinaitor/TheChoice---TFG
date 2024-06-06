@@ -10,20 +10,19 @@ class PantallaPrincipal extends StatefulWidget {
 }
 
 class _PantallaPrincipalState extends State<PantallaPrincipal> {
-  int opcSeleccionada = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'La Elección',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-            ),
+      backgroundColor: Color.fromARGB(255, 209, 209, 209),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'The Choice',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          )
           ),
           backgroundColor: Color.fromARGB(255, 206, 122, 241),
         ),

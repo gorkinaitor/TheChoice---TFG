@@ -35,7 +35,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             fontStyle: FontStyle.italic,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 235, 214, 26),
+        backgroundColor: Colors.amber,
       ),
       body: Center(
           child: Column(
@@ -64,14 +64,16 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               },
             ),
           ),
-          Text(
-            'Correo Electronico: $_correo',
-            style: TextStyle(fontSize: 15),
-          ),
-          Text(
-            'Token de Google: $_googleToken',
-            style: TextStyle(fontSize: 10),
-          ),
+          if(_correo != null) ...[
+            Text(
+              'Correo Electronico: $_correo',
+              style: TextStyle(fontSize: 15),
+            ),
+            Text(
+              'Token de Google: $_googleToken',
+              style: TextStyle(fontSize: 10),
+            ),
+          ],
           _foto != null
               ? Image.network(
                   _foto!,

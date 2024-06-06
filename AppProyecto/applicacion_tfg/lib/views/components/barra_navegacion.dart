@@ -16,29 +16,31 @@ class BarraNav extends StatelessWidget {
         onTap: (index) {
           navegacionConEstado.goBranch(index);
         },
-        backgroundColor: Color.fromARGB(255, 224, 212, 221),
-        items: [
+        backgroundColor: Color.fromARGB(255, 210, 158, 233),
+        items: const [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined),
-            activeIcon: const Icon(Icons.home_filled),
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
             label: 'Inicio',
-            backgroundColor: Colors.purple[200],
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
-            activeIcon: const Icon(Icons.person),
+            activeIcon: Icon(Icons.person),
             label: 'Perfil',
-            backgroundColor: Colors.amber,
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            activeIcon: Icon(Icons.settings),
-            label: 'Configuración',
-            backgroundColor: Colors.lightGreen,
-          ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), 
+              activeIcon: Icon(Icons.settings),
+              label: 'Configuración',
+            ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.message_outlined), 
+              activeIcon: Icon(Icons.message),
+              label: 'Mensajes',
+              ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.publish_outlined),
-            activeIcon: Icon(Icons.upload),
+            activeIcon: Icon(Icons.publish),
             label: 'Subir Producto',
           ),
         ],
