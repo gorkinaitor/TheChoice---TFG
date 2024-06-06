@@ -15,12 +15,13 @@ class _BarraBusquedaState extends State<BarraBusqueda> {
     super.initState();
     _controller = TextEditingController();
   }
-
+  
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +36,18 @@ class _BarraBusquedaState extends State<BarraBusqueda> {
           width: MediaQuery.of(context).size.width * 1,
           padding: const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey),
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(7),
+            border: Border.all(color: Color.fromARGB(255, 209, 209, 209)),
           ),
           child: Row(
             children: [
-              const Icon(
-                Icons.search,
-                color: Colors.grey,
-              ),
               Expanded(
-                child: TextField(
+                 child: Focus(
+                  child: TextField(
                   controller: _controller,
                   decoration: const InputDecoration(
-                    hintText: 'Buscar...',
+                    hintText: 'Buscar',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(left: 10),
                   ),
@@ -57,9 +55,17 @@ class _BarraBusquedaState extends State<BarraBusqueda> {
                     Future.delayed(Duration.zero, () {
                       _controller.selection = TextSelection(
                           baseOffset: 0, extentOffset: _controller.text.length);
-                    });
-                  },
-                ),
+                      });
+                    },
+                  )
+                )
+              ),
+              const Padding(
+                padding: EdgeInsets.only(right: 10),
+              child:  Icon(
+                Icons.search,
+                color: Color.fromARGB(255, 58, 58, 58),
+              )
               ),
             ],
           ),

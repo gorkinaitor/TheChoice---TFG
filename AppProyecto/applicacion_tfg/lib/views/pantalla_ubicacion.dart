@@ -1,6 +1,8 @@
+import 'package:applicacion_tfg/controllers/geolocalizacion.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PantallaUbicacion extends StatefulWidget {
   const PantallaUbicacion({Key? key}) : super(key: key);
