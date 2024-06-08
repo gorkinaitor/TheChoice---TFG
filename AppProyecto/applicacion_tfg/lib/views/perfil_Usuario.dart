@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PerfilUsuario extends StatefulWidget {
   final PaqueteSubida claseCompartida;
+
   PerfilUsuario({required this.claseCompartida});
 
   @override
