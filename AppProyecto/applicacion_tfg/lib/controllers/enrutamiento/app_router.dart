@@ -34,7 +34,7 @@ final GoRouter appRouter = GoRouter(
             ),
           ],
         ),
-         StatefulShellBranch(
+        StatefulShellBranch(
           routes: [
             GoRoute(
               path: '/pantallaUbicacion',
@@ -42,7 +42,7 @@ final GoRouter appRouter = GoRouter(
             ),
           ],
         ),
-         StatefulShellBranch(
+        StatefulShellBranch(
           routes: [
             GoRoute(
               path: '/mensajes',
@@ -68,7 +68,11 @@ final GoRouter appRouter = GoRouter(
         builder: (context, state) => PantallaUbicacion()),
 
     GoRoute(
-        path: '/pantallaProducto',
-        builder: (context, state) => PantallaProducto())   
+      path: '/pantallaProducto',
+      builder: (context, state) {
+        final producto = state.extra as Map<String, dynamic>;
+        return PantallaProducto(producto: producto);
+      },
+    ),
   ],
 );
