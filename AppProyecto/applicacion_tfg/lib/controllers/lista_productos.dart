@@ -44,7 +44,7 @@ class _ListaState extends State<Lista> {
               children: items.map((item) {
                 return GestureDetector(
                     onTap: () {
-                      context.go('/pantallaProducto');
+                      context.go('/pantallaProducto', extra: item);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -64,25 +64,33 @@ class _ListaState extends State<Lista> {
                             ),
                           ),
                           SizedBox(height: 8),
-                          Text(
-                            item['titulo'] ?? 'No Title',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0, right: 8),
+                            child: Text(
+                              item['titulo'] ?? 'No Title',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            item['descripcion'] ?? 'No Description',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0, right: 8),
+                            child: Text(
+                              item['descripcion'] ?? 'No Description',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
@@ -90,60 +98,5 @@ class _ListaState extends State<Lista> {
               }).toList(),
             ),
     );
-
-/*
-    return Container(
-        child: GridView.extent(
-      maxCrossAxisExtent: 200.0,
-      mainAxisSpacing: 8.0,
-      crossAxisSpacing: 8.0,
-      padding: const EdgeInsets.all(8.0),
-      children: items.map((item) {
-        return GestureDetector(
-            onTap: () {
-              context.go('/pantallaProducto');
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(7),
-                    child: Image.network(
-                      item['rutaurl']!,
-                      height: 100,
-                      width: 130,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    item['titulo']!,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    item['descripcion']!,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
-            ));
-      }).toList(),
-    ));
-  */
   }
 }
