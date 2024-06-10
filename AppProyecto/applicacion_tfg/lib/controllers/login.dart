@@ -46,8 +46,8 @@ class _LoginState extends State<Login> {
             widget.onLogout!();
           } else {
             await _signInWithGoogle();
-          }
-        },
+                }
+              },
         child: Text(_buttonText));
   }
 
@@ -64,7 +64,8 @@ class _LoginState extends State<Login> {
     final googleAuth = await googleUser.authentication;
     final accessToken = googleAuth.accessToken;
     final idToken = googleAuth.idToken;
-    
+
+
     final correo = googleUser.email;
     final String? foto = googleUser.photoUrl;
 
@@ -83,6 +84,20 @@ class _LoginState extends State<Login> {
 
     if (widget.googleTokenUsuario != null) {
       widget.googleTokenUsuario!(idToken, correo, foto, supabase);
+
+      // Insertar el perfil del usuario en la tabla de perfiles
+            final response = await supabase.from('perfiles').upsert({'google_id': correo}, onConflict: 'google_id');
+            if (response != null) {
+              if (response.error != null) {
+                // Manejar el posible error
+                print('Error al insertar el perfil: ${response.error!.message}');
+              } else {
+                print('Perfil insertado correctamente');
+              }
+            } else {
+              print('La respuesta de upsert es nula');
+            }
+
       paqueteSubida.setCorreo = correo;
     }
   }
