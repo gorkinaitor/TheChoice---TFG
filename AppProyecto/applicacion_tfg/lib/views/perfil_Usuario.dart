@@ -2,6 +2,7 @@ import 'package:applicacion_tfg/controllers/enrutamiento/app_router.dart';
 import 'package:applicacion_tfg/models/modelo_subir_producto.dart';
 import 'package:flutter/material.dart';
 import 'package:applicacion_tfg/controllers/login.dart';
+import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PerfilUsuario extends StatefulWidget {
@@ -40,8 +41,42 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
       ),
       body: Center(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 30),
+          if (_correo != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(35.0),
+                ),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      if (_foto != null)
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.network(
+                              _foto!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Text(
+                          'Correo $_correo',
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Login(
@@ -65,24 +100,6 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               },
             ),
           ),
-          if(_correo != null) ...[
-            Text(
-              'Correo Electronico: $_correo',
-              style: TextStyle(fontSize: 15),
-            ),
-            Text(
-              'Token de Google: $_googleToken',
-              style: TextStyle(fontSize: 10),
-            ),
-          ],
-          _foto != null
-              ? Image.network(
-                  _foto!,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                )
-              : SizedBox(),
         ],
       )),
     );

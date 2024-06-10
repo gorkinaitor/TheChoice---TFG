@@ -2,7 +2,6 @@ import 'package:applicacion_tfg/views/pantalla_conversaciones.dart';
 import 'package:applicacion_tfg/views/pantalla_mensajes.dart';
 import 'package:applicacion_tfg/views/pantalla_producto.dart';
 import 'package:applicacion_tfg/views/pantalla_ubicacion.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applicacion_tfg/views/pantalla_principal.dart';
 import 'package:applicacion_tfg/views/perfil_Usuario.dart';
@@ -22,7 +21,8 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/',
-              builder: (context, state) => PantallaPrincipal(),
+              builder: (context, state) =>
+                  PantallaPrincipal(claseCompartida: paqueteSubida),
             ),
           ],
         ),
@@ -35,7 +35,7 @@ final GoRouter appRouter = GoRouter(
             ),
           ],
         ),
-         StatefulShellBranch(
+        StatefulShellBranch(
           routes: [
             GoRoute(
               path: '/pantallaUbicacion',
@@ -43,7 +43,7 @@ final GoRouter appRouter = GoRouter(
             ),
           ],
         ),
-         StatefulShellBranch(
+        StatefulShellBranch(
           routes: [
             GoRoute(
               path: '/mensajes',
@@ -69,7 +69,11 @@ final GoRouter appRouter = GoRouter(
         builder: (context, state) => PantallaUbicacion()),
 
     GoRoute(
-        path: '/pantallaProducto',
-        builder: (context, state) => PantallaProducto())   
+      path: '/pantallaProducto',
+      builder: (context, state) {
+        final producto = state.extra as Map<String, dynamic>;
+        return PantallaProducto(producto: producto);
+      },
+    ),
   ],
 );
