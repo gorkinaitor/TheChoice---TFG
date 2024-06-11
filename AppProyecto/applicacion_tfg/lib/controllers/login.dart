@@ -53,6 +53,7 @@ class _LoginState extends State<Login> {
       },
       child: Text(_buttonText),
     );
+
   }
 
   Future<void> _signInWithGoogle() async {
@@ -82,6 +83,8 @@ class _LoginState extends State<Login> {
 
     if (widget.googleTokenUsuario != null) {
       widget.googleTokenUsuario!(idToken, correo, foto, supabase, googleUser);
+
+      
       paqueteSubida.setCorreo = correo;
     }
   }

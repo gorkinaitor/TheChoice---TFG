@@ -1,3 +1,4 @@
+import 'package:applicacion_tfg/views/pantalla_conversaciones.dart';
 import 'package:applicacion_tfg/views/pantalla_mensajes.dart';
 import 'package:applicacion_tfg/views/pantalla_producto.dart';
 import 'package:applicacion_tfg/views/pantalla_ubicacion.dart';
@@ -38,7 +39,7 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/mensajes',
-              builder: (context, state) => PantallaMensajes(),
+              builder: (context, state) => PantallaConversaciones(),
             ),
           ],
         ),

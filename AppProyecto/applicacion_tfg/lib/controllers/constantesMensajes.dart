@@ -22,10 +22,10 @@ final appTheme = ThemeData.light().copyWith(
   primaryColorDark: Colors.orange,
   appBarTheme: const AppBarTheme(
     elevation: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.grey,
     iconTheme: IconThemeData(color: Colors.black),
     titleTextStyle: TextStyle(
-      color: Colors.black,
+      color: Colors.white,
       fontSize: 18,
     ),
   ),
