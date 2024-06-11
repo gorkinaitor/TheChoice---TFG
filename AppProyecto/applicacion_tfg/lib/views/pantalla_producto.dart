@@ -23,6 +23,7 @@ Widget build(BuildContext context) {
   final idDestinatario = producto['id_proovedor'];
   final emailDestinatario = producto['correo'];
 
+  //Comprueba el estado de autenticación
   return StreamBuilder<Session?>(
     stream: supabase.auth.onAuthStateChange.map((event) => event.session),
     builder: (context, snapshot) {
@@ -35,8 +36,10 @@ Widget build(BuildContext context) {
       }
 
       final estaAutenticado = snapshot.data?.user != null;
+
+      // Si el usuario no está autenticado, muestra un mensaje y no le permite acceder a las funcionalidades de esa pantalla
       if (!estaAutenticado) {
-        // Si el usuario no está autenticado, muestra un mensaje
+        
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -58,6 +61,7 @@ Widget build(BuildContext context) {
           ),
           body: Center(child: Text('No estás logueado. Por favor inicia sesión.')),
         );
+        // Si el usuario está autenticado, le permite acceder a las funcionalidades de esa pantalla con normalidad
       } else {
         return Scaffold(
           appBar: AppBar(
@@ -78,6 +82,7 @@ Widget build(BuildContext context) {
               },
             ),
           ),
+          //Carga los datos del producto que se encuentran en la base de datos
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -109,6 +114,11 @@ Widget build(BuildContext context) {
                     fontSize: 16,
                   ),
                 ),
+                BotonFavoritos(
+                userId: supabase.auth.currentSession!.user.id,
+                productoId: producto['id'],
+              ),
+                //Icono que permite ser clickado e inicia una conversación con el proovedor de ese producto
                 SizedBox(height: 8),
                 Align(
                   alignment: Alignment.centerRight,
@@ -118,9 +128,12 @@ Widget build(BuildContext context) {
                       IconButton(
                         icon: Icon(Icons.message, color: Colors.black),
                         onPressed: () {
+                          //Comprueba si el correo del proovedor es el mismo que el de la sesión actual
                           if (producto['correo'] == supabase.auth.currentUser?.email) {
+                            //Acción que muestra una alerta impidiendo el iniciar una conversación si el proovedor es la misma persona que el usuario
                             mostrarAlertaUsuarioMismo(context, () {});
                           } else {
+                            //Acción que inicia la conversación
                             _iniciarConversacion(context, idDestinatario, emailDestinatario);
                           }
                         },
@@ -167,8 +180,8 @@ Widget build(BuildContext context) {
           ),
         ),
       );
-    } else {
       // Si la conversación no existe, crea una nueva
+    } else {
       final nuevaConversacion = await supabase
           .from('conversaciones')
           .insert({
@@ -194,7 +207,7 @@ Widget build(BuildContext context) {
   }
 }
 
-// Pop up que evita que un usuario pueda iniciar una conversación consigo mismo en caso de que el sea el que ha subido el producto
+// Pop up que evita que un usuario pueda iniciar una conversación consigo mismo en caso de que sea él el que ha subido el producto
 void mostrarAlertaUsuarioMismo(BuildContext context, Function onClose) {
   showDialog(
     context: context,

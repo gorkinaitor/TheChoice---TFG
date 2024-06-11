@@ -25,6 +25,7 @@ class PantallaMensajes extends StatefulWidget {
 class _PantallaMensajesState extends State<PantallaMensajes> {
   late final Stream<List<Mensajes>> _mensajesStream;
 
+  //Carga los mensajes existentes del usuario logueado con otro usuario concreto en memoria
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,7 @@ class _PantallaMensajesState extends State<PantallaMensajes> {
     _mensajesStream = supabase
         .from('mensajes')
         .stream(primaryKey: ['id'])
-        .eq('id_conversacion', widget.id_conversacion) // Filtrar por id_conversacion
+        .eq('id_conversacion', widget.id_conversacion)
         .order('fecha')
         .map((maps) => maps
             .map((map) => Mensajes.fromMap(map: map, myUserId: _id))
@@ -54,11 +55,12 @@ class _PantallaMensajesState extends State<PantallaMensajes> {
         ),
         backgroundColor: Colors.lightBlue,
       ),
+      //Carga los mensajes de la conversación en la pantalla
       body: StreamBuilder<List<Mensajes>>(
         stream: _mensajesStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            // Manejo de errores: muestra un mensaje de error
+            //Muestra un mensaje de error
             return Center(
               child: Text('Error: ${snapshot.error}'),
             );

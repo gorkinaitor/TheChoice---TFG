@@ -58,6 +58,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
     });
   }
 
+  //Resumen del producto que acaba de publicar el proovedor
   void mostrarAlerta(BuildContext context, String mensaje) {
     showDialog(
       context: context,
@@ -80,20 +81,22 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
 
   @override
   Widget build(BuildContext context) {
+    //Comprueba el estado de autenticación  
     return StreamBuilder<Session?>(
       stream: supabase.auth.onAuthStateChange.map((event) => event.session),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Muestra un indicador de carga mientras se espera la respuesta del stream
           return Scaffold(
             appBar: AppBar(title: Text('Subir Producto')),
             body: Center(child: CircularProgressIndicator()),
           );
         }
 
+
         final estaAutenticado = snapshot.data?.user != null;
+
+        // Si el usuario no está autenticado, muestra un mensaje y no le permite acceder a las funcionalidades de esa pantalla
         if (!estaAutenticado) {
-          // Si el usuario no está autenticado, muestra un mensaje
           return Scaffold(
             appBar: AppBar(
                 centerTitle: true,
@@ -109,6 +112,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
               ),
             body: Center(child: Text('No estás logueado. Por favor inicia sesión.')),
           );
+          // Si el usuario está autenticado, le permite acceder a las funcionalidades de esa pantalla con normalidad
         } else {
             return Scaffold(
               appBar: AppBar(
@@ -128,6 +132,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    //Formulario para añadir un nuevo producto
                     Card(
                       elevation: 4.0,
                       child: Padding(
@@ -256,6 +261,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                             paqueteSubida.setNombreImagen = nombreArchivo!;
                             paqueteSubida.setCoord = ubicacionSeleccionada!;
 
+                            //Acción para mostrar el resumen del producto
                             mostrarAlerta(context, texto);
                             paqueteSubida.subirImagen();
                           },
