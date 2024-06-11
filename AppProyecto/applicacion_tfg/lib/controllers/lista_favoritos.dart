@@ -17,7 +17,7 @@ class _ListaFavoritosState extends State<ListaFavoritos> {
       final response = await supabase
           .from('favoritos2')
           .select(
-              'id_user, productos(correo,titulo,descripcion,productoTipo,rutaurl)')
+              'id_user, productos(id,correo,titulo,descripcion,productoTipo,rutaurl)')
           .eq('id_user', user);
 
       setState(() {
@@ -64,7 +64,7 @@ class _ListaFavoritosState extends State<ListaFavoritos> {
                   final producto = item['productos'];
                   return GestureDetector(
                     onTap: () {
-                      context.push('/pantallaProducto', extra: item);
+                      context.push('/pantallaProducto', extra: item['productos']);
                     },
                     child: Container(
                       decoration: BoxDecoration(
