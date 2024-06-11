@@ -26,6 +26,7 @@ class PaqueteSubida {
   late LatLng coord;
   late SupabaseClient supabase = supabase;
   late String urlFoto = "";
+  late String idProveedor;
 
   //GETTERS DE TODAS LAS VARIABLES NECESARIAS
   String get getCorreo => correo;
@@ -36,6 +37,7 @@ class PaqueteSubida {
   String get getNombreImagen => nombreImagen;
   LatLng get getCoord => coord;
   SupabaseClient get getSupabaseClient => supabase;
+  String get getIdProveedor => idProveedor;
 
   //SETTERS DE TODAS LAS VARIABLES NECESARIAS
   set setCorreo(String _correo) {
@@ -70,8 +72,12 @@ class PaqueteSubida {
     coord = _coord;
   }
 
+  set setIdProveedor(String _idProveedor) {
+    idProveedor = _idProveedor;
+  }
+
   Future<void> subirDatos() async {
-    final response = await supabase.from('test_productos').insert([
+    final response = await supabase.from('productos').insert([
       {
         'correo': correo,
         'titulo': titulo,
@@ -81,6 +87,7 @@ class PaqueteSubida {
         'latitud': coord.latitude,
         'longitud': coord.longitude,
         'rutaurl': urlFoto,
+        'id_proveedor': idProveedor
       }
     ]);
   }

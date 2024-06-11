@@ -18,7 +18,7 @@ class _ListaState extends State<Lista> {
   List<Map<String, dynamic>> items = [];
 
   Future<void> probarListas() async {
-    final datos = await supabase.from('test_productos').select();
+    final datos = await supabase.from('productos').select();
 
     setState(() {
       items = List<Map<String, dynamic>>.from(datos);

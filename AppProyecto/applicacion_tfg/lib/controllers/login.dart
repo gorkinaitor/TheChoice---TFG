@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:applicacion_tfg/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,41 +20,50 @@ class _LoginState extends State<Login> {
   String _buttonText = 'Inicio Sesion';
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final PaqueteSubida paqueteSubida = PaqueteSubida();
+  StreamSubscription<AuthState>? _authSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    supabase.auth.onAuthStateChange.listen((data) {
-      setState(() {
-        _userId = data.session?.user.id;
-        if (_userId != null) {
-          _buttonText = 'Cerrar Sesión';
-        } else {
-          _buttonText = 'Iniciar Sesión';
-        }
-      });
+    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      if (mounted) {
+        setState(() {
+          _userId = data.session?.user.id;
+          if (_userId != null) {
+            _buttonText = 'Cerrar Sesión';
+          } else {
+            _buttonText = 'Iniciar Sesión';
+          }
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () async {
-          if (_userId != null) {
-            await _googleSignIn.signOut();
-            await supabase.auth.signOut();
-            widget.onLogout!();
-          } else {
-            await _signInWithGoogle();
-                }
-              },
-        child: Text(_buttonText));
+      onPressed: () async {
+        if (_userId != null) {
+          await _googleSignIn.signOut();
+          await supabase.auth.signOut();
+          widget.onLogout?.call();
+        } else {
+          await _signInWithGoogle();
+        }
+      },
+      child: Text(_buttonText),
+    );
   }
 
   Future<void> _signInWithGoogle() async {
-    const webClientId =
-        '935894590591-r3qj6j37781a3blm4k5si469g9a0aok1.apps.googleusercontent.com';
+    const webClientId = '935894590591-r3qj6j37781a3blm4k5si469g9a0aok1.apps.googleusercontent.com';
 
     final GoogleSignIn googleSignIn = GoogleSignIn(clientId: webClientId);
     final googleUser = await googleSignIn.signIn();
@@ -64,7 +74,6 @@ class _LoginState extends State<Login> {
     final googleAuth = await googleUser.authentication;
     final accessToken = googleAuth.accessToken;
     final idToken = googleAuth.idToken;
-
 
     final correo = googleUser.email;
     final String? foto = googleUser.photoUrl;
@@ -84,21 +93,8 @@ class _LoginState extends State<Login> {
 
     if (widget.googleTokenUsuario != null) {
       widget.googleTokenUsuario!(idToken, correo, foto, supabase);
-
-      // Insertar el perfil del usuario en la tabla de perfiles
-            final response = await supabase.from('perfiles').upsert({'google_id': correo}, onConflict: 'google_id');
-            if (response != null) {
-              if (response.error != null) {
-                // Manejar el posible error
-                print('Error al insertar el perfil: ${response.error!.message}');
-              } else {
-                print('Perfil insertado correctamente');
-              }
-            } else {
-              print('La respuesta de upsert es nula');
-            }
-
       paqueteSubida.setCorreo = correo;
+      paqueteSubida.setIdProveedor = supabase.auth.currentUser!.id;
     }
   }
 }
