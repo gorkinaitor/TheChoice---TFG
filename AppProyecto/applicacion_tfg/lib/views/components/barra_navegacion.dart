@@ -29,15 +29,10 @@ class BarraNav extends StatelessWidget {
             label: 'Perfil',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined), 
-              activeIcon: Icon(Icons.settings),
-              label: 'Configuración',
-            ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.message_outlined), 
-              activeIcon: Icon(Icons.message),
-              label: 'Mensajes',
-              ),
+            icon: Icon(Icons.message_outlined),
+            activeIcon: Icon(Icons.message),
+            label: 'Mensajes',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.publish_outlined),
             activeIcon: Icon(Icons.publish),

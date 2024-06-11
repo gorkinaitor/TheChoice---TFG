@@ -1,5 +1,7 @@
+import 'package:applicacion_tfg/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:applicacion_tfg/controllers/favoritos.dart';
 
 class PantallaProducto extends StatefulWidget {
   final Map<String, dynamic> producto;
@@ -13,6 +15,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
   @override
   Widget build(BuildContext context) {
     final producto = widget.producto;
+    final user = supabase.auth.currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -25,11 +28,11 @@ class _PantallaProductoState extends State<PantallaProducto> {
             fontStyle: FontStyle.italic,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 221, 168, 108),
+        backgroundColor: const Color.fromARGB(255, 221, 168, 108),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            context.go("/");
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -49,10 +52,17 @@ class _PantallaProductoState extends State<PantallaProducto> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+
+            if (user != null)
+              BotonFavoritos(
+                userId: supabase.auth.currentSession!.user.id,
+                productoId: producto['id'],
+              ),
+
+            const SizedBox(height: 16),
             Text(
               producto['titulo'] ?? 'No Title',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -60,11 +70,11 @@ class _PantallaProductoState extends State<PantallaProducto> {
             SizedBox(height: 8),
             Text(
               producto['descripcion'] ?? 'No Description',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             // Agrega más detalles del producto según sea necesario
           ],
         ),

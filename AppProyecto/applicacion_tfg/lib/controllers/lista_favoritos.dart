@@ -1,38 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:applicacion_tfg/models/modelo_subir_producto.dart';
 import 'package:applicacion_tfg/main.dart'; // Asegúrate de importar supabase
 import 'package:go_router/go_router.dart';
 
-class Lista extends StatefulWidget {
-  final PaqueteSubida claseCompartida;
-  Lista({required this.claseCompartida});
-
+class ListaFavoritos extends StatefulWidget {
   @override
-  State<Lista> createState() => _ListaState();
+  State<ListaFavoritos> createState() => _ListaFavoritosState();
 }
 
-class _ListaState extends State<Lista> {
+class _ListaFavoritosState extends State<ListaFavoritos> {
   List<Map<String, dynamic>> items = [];
 
-  Future<void> probarListas() async {
-    final datos = await supabase.from('productos').select();
+  Future<void> probarListaFavoritoss() async {
+    final user = supabase.auth.currentUser?.id;
 
-    setState(() {
-      items = List<Map<String, dynamic>>.from(datos);
-    });
+    if (user != null) {
+      final response = await supabase
+          .from('favoritos2')
+          .select(
+              'id_user, productos(correo,titulo,descripcion,productoTipo,rutaurl)')
+          .eq('id_user', user);
+
+      setState(() {
+        items = List<Map<String, dynamic>>.from(response);
+      });
+    } else {
+      print('User not logged in');
+    }
+
+    print(items);
   }
 
   @override
   void initState() {
     super.initState();
-    probarListas();
+    probarListaFavoritoss();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Favoritos',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.purple,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+      ),
       body: RefreshIndicator(
-        onRefresh: probarListas,
+        onRefresh: probarListaFavoritoss,
         child: items.isEmpty
             ? Center(child: CircularProgressIndicator())
             : GridView.extent(
@@ -41,6 +61,7 @@ class _ListaState extends State<Lista> {
                 crossAxisSpacing: 8.0,
                 padding: const EdgeInsets.all(8.0),
                 children: items.map((item) {
+                  final producto = item['productos'];
                   return GestureDetector(
                     onTap: () {
                       context.push('/pantallaProducto', extra: item);
@@ -63,7 +84,7 @@ class _ListaState extends State<Lista> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(7),
                             child: Image.network(
-                              item['rutaurl'] ?? '',
+                              producto['rutaurl'] ?? '',
                               height: 100,
                               width: 130,
                               fit: BoxFit.cover,
@@ -76,12 +97,12 @@ class _ListaState extends State<Lista> {
                               },
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              item['titulo'] ?? 'No Title',
+                              producto['titulo'] ?? 'No Title',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -97,7 +118,7 @@ class _ListaState extends State<Lista> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              item['descripcion'] ?? 'No Description',
+                              producto['descripcion'] ?? 'No Description',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
