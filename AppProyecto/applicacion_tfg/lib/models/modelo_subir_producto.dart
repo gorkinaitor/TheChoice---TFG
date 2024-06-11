@@ -26,7 +26,9 @@ class PaqueteSubida {
   late LatLng coord;
   late SupabaseClient supabase = supabase;
   late String urlFoto = "";
+  late String idProveedor;
   bool hasIniciadoSesion = false;
+
 
   //GETTERS DE TODAS LAS VARIABLES NECESARIAS
   String get getCorreo => correo;
@@ -37,7 +39,9 @@ class PaqueteSubida {
   String get getNombreImagen => nombreImagen;
   LatLng get getCoord => coord;
   SupabaseClient get getSupabaseClient => supabase;
+  String get getIdProveedor => idProveedor;
   bool get getHasIniciadoSesion => hasIniciadoSesion;
+
 
   //SETTERS DE TODAS LAS VARIABLES NECESARIAS
   set setCorreo(String _correo) {
@@ -72,6 +76,10 @@ class PaqueteSubida {
     coord = _coord;
   }
 
+  set setIdProveedor(String _idProveedor) {
+    idProveedor = _idProveedor;
+  }
+  
   set setHasIniciadoSesion(bool _hasIniciadoSesion) {
     hasIniciadoSesion = _hasIniciadoSesion;
   }
@@ -87,6 +95,7 @@ class PaqueteSubida {
         'latitud': coord.latitude,
         'longitud': coord.longitude,
         'rutaurl': urlFoto,
+        'id_proveedor': idProveedor
       }
     ]);
   }

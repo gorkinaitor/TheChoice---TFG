@@ -68,7 +68,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                       const SizedBox(width: 20),
                       Expanded(
                         child: Text(
-                          'Correo $_correo',
+                          'Correo: $_correo',
                           style: const TextStyle(fontSize: 15),
                         ),
                       ),

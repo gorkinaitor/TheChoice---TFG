@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:applicacion_tfg/controllers/Mensajes.dart';
-import 'package:applicacion_tfg/controllers/PerfilMensajes.dart';
-import 'package:applicacion_tfg/controllers/constantesMensajes.dart';
+import 'package:applicacion_tfg/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -25,34 +24,20 @@ class PantallaMensajes extends StatefulWidget {
 
 class _PantallaMensajesState extends State<PantallaMensajes> {
   late final Stream<List<Mensajes>> _mensajesStream;
-  final Map<String, PerfilMensajes> _perfilCache = {};
 
   @override
   void initState() {
     super.initState();
-    final _correo = supabase.auth.currentUser!.email;
+    final _id = supabase.auth.currentUser!.id;
     _mensajesStream = supabase
         .from('mensajes')
         .stream(primaryKey: ['id'])
         .eq('id_conversacion', widget.id_conversacion) // Filtrar por id_conversacion
         .order('fecha')
         .map((maps) => maps
-            .map((map) => Mensajes.fromMap(map: map, myUserId: _correo))
+            .map((map) => Mensajes.fromMap(map: map, myUserId: _id))
             .toList());
   }
-
-  Future<void> _loadProfileCache(String profileId) async {
-    if (_perfilCache[profileId] != null) {
-      return;
-    }
-    final data =
-        await supabase.from('perfiles').select().eq('google_id', profileId).single();
-    final perfil = PerfilMensajes.fromMap(data);
-    setState(() {
-      _perfilCache[profileId] = perfil;
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +76,8 @@ class _PantallaMensajesState extends State<PantallaMensajes> {
                           itemCount: mensajes.length,
                           itemBuilder: (context, index) {
                             final mensaje = mensajes[index];
-
-                            // Evitar llamadas asincrónicas repetitivas en el método de construcción
-                            _loadProfileCache(mensaje.id_emisor);
-
                             return _CapsulaMensaje(
                               mensaje: mensaje,
-                              perfil: _perfilCache[mensaje.id_emisor],
                             );
                           },
                         ),
@@ -176,24 +156,19 @@ class _BarraMensajeState extends State<_BarraMensaje> {
 
   void _enviarMensaje() async {
     final text = _teclado.text;
-    final myUserId = supabase.auth.currentUser?.email;
+    final myUserId = supabase.auth.currentUser?.id;
     if (text.isEmpty) {
       return;
     }
     _teclado.clear();
     FocusScope.of(context).unfocus();
-    try {
-      await supabase.from('mensajes').insert({
-        'id_conversacion': widget.id_conversacion,
-        'id_emisor': myUserId,
-        'id_receptor': widget.idUsuario2,
-        'contenido_mensaje': text,
-      });
-    } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (_) {
-      context.showErrorSnackBar(message: 'Unexpected error');
-    }
+  
+    await supabase.from('mensajes').insert({
+      'id_conversacion': widget.id_conversacion,
+      'id_emisor': myUserId,
+      'id_receptor': widget.idUsuario2,
+      'contenido_mensaje': text,
+    });
   }
 }
 
@@ -201,21 +176,15 @@ class _CapsulaMensaje extends StatelessWidget {
   const _CapsulaMensaje({
     Key? key,
     required this.mensaje,
-    required this.perfil,
   }) : super(key: key);
 
   final Mensajes mensaje;
-  final PerfilMensajes? perfil;
+  
 
   @override
   Widget build(BuildContext context) {
     List<Widget> chatContents = [
       if (!mensaje.isMine)
-        CircleAvatar(
-          child: perfil == null
-              ? preloader
-              : Text(perfil!.googleId.substring(0, 2)),
-        ),
       const SizedBox(width: 12),
       Flexible(
         child: Container(

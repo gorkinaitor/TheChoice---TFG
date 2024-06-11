@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:applicacion_tfg/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -20,21 +21,30 @@ class _LoginState extends State<Login> {
   String _buttonText = 'Iniciar Sesión';
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final PaqueteSubida paqueteSubida = PaqueteSubida();
+  StreamSubscription<AuthState>? _authSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    supabase.auth.onAuthStateChange.listen((data) {
-      setState(() {
-        _userId = data.session?.user.id;
-        if (_userId != null) {
-          _buttonText = 'Cerrar Sesión';
-        } else {
-          _buttonText = 'Iniciar Sesión';
-        }
-      });
+    _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      if (mounted) {
+        setState(() {
+          _userId = data.session?.user.id;
+          if (_userId != null) {
+            _buttonText = 'Cerrar Sesión';
+          } else {
+            _buttonText = 'Iniciar Sesión';
+          }
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -44,9 +54,7 @@ class _LoginState extends State<Login> {
         if (_userId != null) {
           await _googleSignIn.signOut();
           await supabase.auth.signOut();
-          if (widget.onLogout != null) {
-            widget.onLogout!();
-          }
+          widget.onLogout?.call();
         } else {
           await _signInWithGoogle();
         }
@@ -57,8 +65,8 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _signInWithGoogle() async {
-    const webClientId =
-        '935894590591-r3qj6j37781a3blm4k5si469g9a0aok1.apps.googleusercontent.com';
+    const webClientId = '935894590591-r3qj6j37781a3blm4k5si469g9a0aok1.apps.googleusercontent.com';
+
     final GoogleSignIn googleSignIn = GoogleSignIn(clientId: webClientId);
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
@@ -84,8 +92,8 @@ class _LoginState extends State<Login> {
     if (widget.googleTokenUsuario != null) {
       widget.googleTokenUsuario!(idToken, correo, foto, supabase, googleUser);
 
-      
       paqueteSubida.setCorreo = correo;
+      paqueteSubida.setIdProveedor = supabase.auth.currentUser!.id;
     }
   }
 }
