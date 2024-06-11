@@ -38,14 +38,6 @@ final GoRouter appRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/pantallaUbicacion',
-              builder: (context, state) => PantallaUbicacion(),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
               path: '/mensajes',
               builder: (context, state) => PantallaConversaciones(),
             ),

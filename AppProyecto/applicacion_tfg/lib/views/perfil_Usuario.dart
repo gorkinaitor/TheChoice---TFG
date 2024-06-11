@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:applicacion_tfg/controllers/login.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:applicacion_tfg/controllers/lista_favoritos.dart';
 
 class PerfilUsuario extends StatefulWidget {
   final PaqueteSubida claseCompartida;
@@ -76,11 +77,12 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                 ),
               ),
             ),
+            Expanded(child: ListaFavoritos())
           ],
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Login(
-              googleTokenUsuario: (token, correo, foto, supabase) {
+              googleTokenUsuario: (token, correo, foto, supabase, google) {
                 setState(() {
                   _googleToken = token;
                   _correo = correo;

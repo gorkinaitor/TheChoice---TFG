@@ -3,6 +3,10 @@ import 'package:applicacion_tfg/views/pantalla_mensajes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:applicacion_tfg/controllers/favoritos.dart';
+
 
 class PantallaProducto extends StatefulWidget {
   final Map<String, dynamic> producto;
@@ -48,7 +52,7 @@ Widget build(BuildContext context) {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                context.go("/");
+                Navigator.of(context).pop();
               },
             ),
           ),
@@ -70,7 +74,7 @@ Widget build(BuildContext context) {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                context.go("/");
+                Navigator.of(context).pop();
               },
             ),
           ),
