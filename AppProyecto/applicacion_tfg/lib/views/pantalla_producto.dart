@@ -20,7 +20,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
   @override
 Widget build(BuildContext context) {
   final producto = widget.producto;
-  final idDestinatario = producto['id_proovedor'];
+  final idDestinatario = producto['id_proveedor'];
   final emailDestinatario = producto['correo'];
 
   //Comprueba el estado de autenticación
