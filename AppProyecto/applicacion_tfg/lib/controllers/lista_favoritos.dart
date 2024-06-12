@@ -17,7 +17,7 @@ class _ListaFavoritosState extends State<ListaFavoritos> {
       final response = await supabase
           .from('favoritos2')
           .select(
-              'id_user, productos(id,correo,titulo,descripcion,productoTipo,rutaurl)')
+              'id_user, productos(id,correo,titulo,descripcion,productoTipo,rutaurl, id_proveedor)')
           .eq('id_user', user);
 
       setState(() {
