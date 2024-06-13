@@ -36,7 +36,7 @@ class _PantallaMensajesState extends State<PantallaMensajes> {
         .eq('id_conversacion', widget.id_conversacion)
         .order('fecha')
         .map((maps) => maps
-            .map((map) => Mensajes.fromMap(map: map, myUserId: _id))
+            .map((map) => Mensajes.fromMap(map: map, usuarioId: _id))
             .toList());
   }
 
@@ -158,7 +158,7 @@ class _BarraMensajeState extends State<_BarraMensaje> {
 
   void _enviarMensaje() async {
     final text = _teclado.text;
-    final myUserId = supabase.auth.currentUser?.id;
+    final idUsuario1 = supabase.auth.currentUser?.id;
     if (text.isEmpty) {
       return;
     }
@@ -167,7 +167,7 @@ class _BarraMensajeState extends State<_BarraMensaje> {
   
     await supabase.from('mensajes').insert({
       'id_conversacion': widget.id_conversacion,
-      'id_emisor': myUserId,
+      'id_emisor': idUsuario1,
       'id_receptor': widget.idUsuario2,
       'contenido_mensaje': text,
     });
@@ -186,7 +186,7 @@ class _CapsulaMensaje extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> chatContents = [
-      if (!mensaje.isMine)
+      if (!mensaje.esMio)
       const SizedBox(width: 12),
       Flexible(
         child: Container(
@@ -195,26 +195,26 @@ class _CapsulaMensaje extends StatelessWidget {
             horizontal: 12,
           ),
           decoration: BoxDecoration(
-            color: mensaje.isMine
+            color: mensaje.esMio
                 ? Theme.of(context).primaryColor
                 : Colors.grey[300],
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Text(mensaje.content),
+          child: Text(mensaje.contenido_mensaje),
         ),
       ),
       const SizedBox(width: 12),
-      Text(format(mensaje.createdAt, locale: 'es_short')),
+      Text(format(mensaje.fecha, locale: 'es_short')),
       const SizedBox(width: 60),
     ];
-    if (mensaje.isMine) {
+    if (mensaje.esMio) {
       chatContents = chatContents.reversed.toList();
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
       child: Row(
         mainAxisAlignment:
-            mensaje.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+            mensaje.esMio ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: chatContents,
       ),
     );

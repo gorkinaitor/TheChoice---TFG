@@ -34,7 +34,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
   File? archivoImagen;
   String? nombreArchivo;
   LatLng? ubicacionSeleccionada;
-  String? idProovedor;
+  String? idProveedor;
 
   Future obtenerImagenGaleria() async {
     final imagenSeleccionada = await selectorImagen.pickImage(
@@ -250,7 +250,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                             //FALSE == ALOJAMIENTO, TRUE == EXPERIENCIA
                             producto = experiencia;
                             correo = paqueteSubida.getCorreo;
-
+                            
                             texto =
                                 "Autor: $correo \n Titulo: $textoTitulo \n Descripcion: $textoDescripcion \n Producto: $producto \n RutaImagen: $archivoImagen \n NombreImagen: $nombreArchivo \n Ubicacion Coord: $ubicacionSeleccionada";
 
@@ -260,6 +260,7 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
                             paqueteSubida.setRutaImagen = archivoImagen!;
                             paqueteSubida.setNombreImagen = nombreArchivo!;
                             paqueteSubida.setCoord = ubicacionSeleccionada!;
+                            paqueteSubida.setIdProveedor = supabase.auth.currentUser!.id;
 
                             //Acción para mostrar el resumen del producto
                             mostrarAlerta(context, texto);

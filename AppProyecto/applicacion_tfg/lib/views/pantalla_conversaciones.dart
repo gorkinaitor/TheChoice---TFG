@@ -15,19 +15,19 @@ class _PantallaConversacionesState extends State<PantallaConversaciones> {
   @override
   void initState() {
     super.initState();
-    _setupConversacionesStream();
+    prepararConversaciones();
 
     // Listener para cambios en el estado de autenticación
     supabase.auth.onAuthStateChange.listen((AuthState event) {
       if (mounted) {
         setState(() {
-          _setupConversacionesStream();
+          prepararConversaciones();
         });
       }
     });
   }
 
-  void _setupConversacionesStream() {
+  void prepararConversaciones() {
     final miUsuarioId = supabase.auth.currentUser?.id;
     if (miUsuarioId != null) {
       final streamUsuario1 = supabase
