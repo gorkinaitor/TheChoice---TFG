@@ -4,9 +4,9 @@ class Mensajes {
     required this.id_conversacion,
     required this.id_emisor,
     required this.id_receptor,
-    required this.content,
-    required this.createdAt,
-    required this.isMine,
+    required this.contenido_mensaje,
+    required this.fecha,
+    required this.esMio,
   });
 
   /// ID del mensaje
@@ -22,22 +22,22 @@ class Mensajes {
   final String id_receptor;
 
   /// Contenido del mensaje
-  final String content;
+  final String contenido_mensaje;
 
   /// Fecha de creación del mensaje
-  final DateTime createdAt;
+  final DateTime fecha;
 
   // Comprueba si el mensaje es enviado por el usuario o no
-  final bool isMine;
+  final bool esMio;
 
   Mensajes.fromMap({
     required Map<String, dynamic> map,
-    required String? myUserId,
+    required String? usuarioId,
   })  : id = map['id'],
         id_conversacion = map['id_conversacion'],
         id_emisor = map['id_emisor'],
         id_receptor = map['id_receptor'],
-        content = map['contenido_mensaje'],
-        createdAt = DateTime.parse(map['fecha']),
-        isMine = myUserId == map['id_emisor'];
+        contenido_mensaje = map['contenido_mensaje'],
+        fecha = DateTime.parse(map['fecha']),
+        esMio = usuarioId == map['id_emisor'];
 }
