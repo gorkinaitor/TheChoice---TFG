@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applicacion_tfg/controllers/favoritos.dart';
 
-
 class PantallaProducto extends StatefulWidget {
   final Map<String, dynamic> producto;
+
+  //Se requiere el parámetro prodcuto para construir esta clase
   const PantallaProducto({Key? key, required this.producto}) : super(key: key);
 
   @override
@@ -18,139 +19,143 @@ class PantallaProducto extends StatefulWidget {
 
 class _PantallaProductoState extends State<PantallaProducto> {
   @override
-Widget build(BuildContext context) {
-  final producto = widget.producto;
-  final idDestinatario = producto['id_proveedor'];
-  final emailDestinatario = producto['correo'];
+  Widget build(BuildContext context) {
+    final producto = widget.producto;
+    final idDestinatario = producto['id_proveedor'];
+    final emailDestinatario = producto['correo'];
 
-  //Comprueba el estado de autenticación
-  return StreamBuilder<Session?>(
-    stream: supabase.auth.onAuthStateChange.map((event) => event.session),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        // Muestra un indicador de carga mientras se espera la respuesta del stream
-        return Scaffold(
-          appBar: AppBar(title: Text('Producto')),
-          body: Center(child: CircularProgressIndicator()),
-        );
-      }
+    //Comprueba el estado de autenticación
+    return StreamBuilder<Session?>(
+      stream: supabase.auth.onAuthStateChange.map((event) => event.session),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Muestra un indicador de carga mientras se espera la respuesta del stream
+          return Scaffold(
+            appBar: AppBar(title: Text('Producto')),
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-      final estaAutenticado = snapshot.data?.user != null;
+        final estaAutenticado = snapshot.data?.user != null;
 
-      // Si el usuario no está autenticado, muestra un mensaje y no le permite acceder a las funcionalidades de esa pantalla
-      if (!estaAutenticado) {
-        
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text(
-              'Productos',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
+        // Si el usuario no está autenticado, muestra un mensaje y no le permite acceder a las funcionalidades de esa pantalla
+        if (!estaAutenticado) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text(
+                'Productos',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              backgroundColor: Color.fromARGB(255, 221, 168, 108),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ),
-            backgroundColor: Color.fromARGB(255, 221, 168, 108),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-          body: Center(child: Text('No estás logueado. Por favor inicia sesión.')),
-        );
-        // Si el usuario está autenticado, le permite acceder a las funcionalidades de esa pantalla con normalidad
-      } else {
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text(
-              'Productos',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
+            body: Center(
+                child: Text('No estás logueado. Por favor inicia sesión.')),
+          );
+          // Si el usuario está autenticado, le permite acceder a las funcionalidades de esa pantalla con normalidad
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text(
+                'Productos',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              backgroundColor: Color.fromARGB(255, 221, 168, 108),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ),
-            backgroundColor: Color.fromARGB(255, 221, 168, 108),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-          //Carga los datos del producto que se encuentran en la base de datos
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.network(
-                      producto['rutaurl']!,
-                      height: 200,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+            //Carga los datos del producto que se encuentran en la base de datos
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
+                        producto['rutaurl']!,
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  producto['titulo'] ?? 'No Title',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                  SizedBox(height: 8),
+                  Text(
+                    producto['titulo'] ?? 'No Title',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  producto['descripcion'] ?? 'No Description',
-                  style: TextStyle(
-                    fontSize: 16,
+                  SizedBox(height: 8),
+                  Text(
+                    producto['descripcion'] ?? 'No Description',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                BotonFavoritos(
-                userId: supabase.auth.currentSession!.user.id,
-                productoId: producto['id'],
+                  BotonFavoritos(
+                    userId: supabase.auth.currentSession!.user.id,
+                    productoId: producto['id'],
+                  ),
+                  //Icono que permite ser clickado e inicia una conversación con el proovedor de ese producto
+                  SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Column(
+                      children: [
+                        Text('Contáctanos',
+                            style: TextStyle(color: Colors.black)),
+                        IconButton(
+                          icon: Icon(Icons.message, color: Colors.black),
+                          onPressed: () {
+                            //Comprueba si el correo del proovedor es el mismo que el de la sesión actual
+                            if (producto['correo'] ==
+                                supabase.auth.currentUser?.email) {
+                              //Acción que muestra una alerta impidiendo el iniciar una conversación si el proovedor es la misma persona que el usuario
+                              mostrarAlertaUsuarioMismo(context, () {});
+                            } else {
+                              //Acción que inicia la conversación
+                              _iniciarConversacion(
+                                  context, idDestinatario, emailDestinatario);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-                //Icono que permite ser clickado e inicia una conversación con el proovedor de ese producto
-                SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Column(
-                    children: [
-                      Text('Contáctanos', style: TextStyle(color: Colors.black)),
-                      IconButton(
-                        icon: Icon(Icons.message, color: Colors.black),
-                        onPressed: () {
-                          //Comprueba si el correo del proovedor es el mismo que el de la sesión actual
-                          if (producto['correo'] == supabase.auth.currentUser?.email) {
-                            //Acción que muestra una alerta impidiendo el iniciar una conversación si el proovedor es la misma persona que el usuario
-                            mostrarAlertaUsuarioMismo(context, () {});
-                          } else {
-                            //Acción que inicia la conversación
-                            _iniciarConversacion(context, idDestinatario, emailDestinatario);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
             ),
-          ),
-        );
-      }
-    },
-  );
-}
+          );
+        }
+      },
+    );
+  }
 
-  Future<void> _iniciarConversacion(BuildContext context, String idDestinatario, String emailDestinatario) async {
+  Future<void> _iniciarConversacion(BuildContext context, String idDestinatario,
+      String emailDestinatario) async {
     final supabase = Supabase.instance.client;
     final idUsuarioActual = supabase.auth.currentUser!.id;
     final emailUsuarioActual = supabase.auth.currentUser!.email;
@@ -170,7 +175,8 @@ Widget build(BuildContext context) {
 
     // Si la conversación ya existe, navega a ella
     if (response1.isNotEmpty || response2.isNotEmpty) {
-      final conversacionExistente = response1.isNotEmpty ? response1[0] : response2[0];
+      final conversacionExistente =
+          response1.isNotEmpty ? response1[0] : response2[0];
       Navigator.push(
         context,
         MaterialPageRoute(

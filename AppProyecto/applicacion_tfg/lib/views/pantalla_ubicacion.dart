@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+// Define una clase StatefulWidget llamada PantallaUbicacion
 class PantallaUbicacion extends StatefulWidget {
   const PantallaUbicacion({Key? key}) : super(key: key);
 
@@ -9,12 +10,15 @@ class PantallaUbicacion extends StatefulWidget {
   _PantallaUbicacionState createState() => _PantallaUbicacionState();
 }
 
+// Define el estado asociado a PantallaUbicacion
 class _PantallaUbicacionState extends State<PantallaUbicacion> {
-  late GoogleMapController mapController;
-  LatLng ubicacionInicial = const LatLng(40.41677675134732, -3.70342072991743);
-  Set<Marker> marcadores = {};
-  LatLng? ubicacionMarcador;
+  late GoogleMapController mapController; // Controlador del mapa
+  LatLng ubicacionInicial = const LatLng(40.41677675134732,
+      -3.70342072991743); // Ubicación inicial del mapa (Madrid)
+  Set<Marker> marcadores = {}; // Conjunto de marcadores en el mapa
+  LatLng? ubicacionMarcador; // Ubicación seleccionada por el usuario
 
+  // Método que se ejecuta cuando el mapa es creado
   void CreacionMapa(GoogleMapController controller) {
     mapController = controller;
     marcadores.add(
@@ -24,51 +28,61 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
       ),
     );
 
-    // Muestra la AlertDialog al inicio
+    // Muestra el AlertDialog al inicio
   }
 
+  // Método que se ejecuta cuando el usuario pulsa el mapa
   void pulsarMapa(LatLng coordenadas) {
     setState(() {
-      ubicacionInicial = coordenadas;
-      marcadores.clear();
+      ubicacionInicial = coordenadas; // Actualiza la ubicación inicial
+      marcadores.clear(); // Limpia los marcadores existentes
       marcadores.add(
         Marker(
           markerId: const MarkerId('coordenadasSeleccionadas'),
-          position: coordenadas,
+          position:
+              coordenadas, // Añade un nuevo marcador en la ubicación seleccionada
         ),
       );
     });
 
-    ubicacionMarcador = coordenadas;
+    ubicacionMarcador = coordenadas; // Guarda la ubicación seleccionada
 
-    // Muestra la AlertDialog cada vez que se selecciona una ubicación
+    // Muestra el AlertDialog con las coordenadas seleccionadas
     mostrarAlertDialog();
   }
 
+  // Método para obtener la ubicación del usuario
   Future<void> GeolocalizarUsuario() async {
-    LocationData? locationData = await Location.instance.getLocation();
+    LocationData? locationData = await Location.instance
+        .getLocation(); // Obtiene la ubicación actual del usuario
 
     if (locationData != null) {
-      LatLng userLocation =
-          LatLng(locationData.latitude!, locationData.longitude!);
+      LatLng userLocation = LatLng(
+          locationData.latitude!,
+          locationData
+              .longitude!); // Crea una nueva LatLng con la ubicación del usuario
 
-      mapController.animateCamera(CameraUpdate.newLatLng(userLocation));
+      mapController.animateCamera(CameraUpdate.newLatLng(
+          userLocation)); // Mueve la cámara a la ubicación del usuario
 
-      ubicacionMarcador = userLocation;
+      ubicacionMarcador = userLocation; // Guarda la ubicación del usuario
 
       setState(() {
-        ubicacionInicial = userLocation;
-        pulsarMapa(userLocation);
+        ubicacionInicial = userLocation; // Actualiza la ubicación inicial
+        pulsarMapa(
+            userLocation); // Añade un marcador en la ubicación del usuario
       });
 
-      mapController.animateCamera(CameraUpdate.newLatLng(userLocation));
+      mapController.animateCamera(CameraUpdate.newLatLng(
+          userLocation)); // Mueve la cámara nuevamente a la ubicación del usuario
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("No se pudo encontrar la ubicación")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              "No se pudo encontrar la ubicación"))); // Muestra un mensaje de error si no se puede obtener la ubicación
     }
   }
 
-  // Método para mostrar la AlertDialog
+  // Método para mostrar un AlertDialog con las coordenadas seleccionadas
   void mostrarAlertDialog() {
     showDialog(
       context: context,
@@ -80,7 +94,7 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Cierra el AlertDialog
               },
               child: Text('OK'),
             ),
@@ -93,7 +107,7 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false, // Oculta la etiqueta de modo debug
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -110,13 +124,16 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
         body: Stack(
           children: [
             GoogleMap(
-              onMapCreated: CreacionMapa,
+              onMapCreated:
+                  CreacionMapa, // Define el método que se ejecuta cuando el mapa es creado
               initialCameraPosition: CameraPosition(
-                target: ubicacionInicial,
+                target:
+                    ubicacionInicial, // Define la posición inicial de la cámara
                 zoom: 15.0,
               ),
-              markers: marcadores,
-              onTap: pulsarMapa,
+              markers: marcadores, // Define los marcadores en el mapa
+              onTap:
+                  pulsarMapa, // Define el método que se ejecuta cuando se pulsa el mapa
             ),
             Positioned(
               bottom: 20,
@@ -129,7 +146,7 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        GeolocalizarUsuario();
+                        GeolocalizarUsuario(); // Llama al método para obtener la ubicación del usuario
                       },
                       child: const Icon(Icons.my_location),
                     ),
@@ -139,8 +156,9 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Aquí irá el método para confirmar la ubicación
-                        Navigator.of(context).pop(ubicacionMarcador);
+                        // Llama al método para confirmar la ubicación seleccionada
+                        Navigator.of(context).pop(
+                            ubicacionMarcador); // Cierra la pantalla y devuelve la ubicación seleccionada
                       },
                       child: const Icon(Icons.done_outline),
                     ),
@@ -155,6 +173,7 @@ class _PantallaUbicacionState extends State<PantallaUbicacion> {
   }
 }
 
+// Código alternativo comentado
 
 /*
 
@@ -194,7 +213,7 @@ class _MapaSeleccionState extends State<MapaSeleccion> {
           setState(() {
             ubicacionSeleccionada = coordenadas;
           });
-          mostrarAlertDialog(context, ubicacionSeleccionada);
+          mostrarAlertDialog(context, ubicacionSeleccionada); // Muestra un AlertDialog con las coordenadas seleccionadas
         },
       ),
     );
@@ -213,7 +232,7 @@ class _MapaSeleccionState extends State<MapaSeleccion> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Cierra el AlertDialog
               },
               child: Text('OK'),
             ),
@@ -229,6 +248,5 @@ void main() {
     home: MapaSeleccion(),
   ));
 }
-
 
 */

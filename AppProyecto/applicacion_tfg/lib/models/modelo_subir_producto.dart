@@ -29,7 +29,6 @@ class PaqueteSubida {
   late String idProveedor;
   bool hasIniciadoSesion = false;
 
-
   //GETTERS DE TODAS LAS VARIABLES NECESARIAS
   String get getCorreo => correo;
   String get getTitulo => titulo;
@@ -41,7 +40,6 @@ class PaqueteSubida {
   SupabaseClient get getSupabaseClient => supabase;
   String get getIdProveedor => idProveedor;
   bool get getHasIniciadoSesion => hasIniciadoSesion;
-
 
   //SETTERS DE TODAS LAS VARIABLES NECESARIAS
   set setCorreo(String _correo) {
@@ -79,7 +77,7 @@ class PaqueteSubida {
   set setIdProveedor(String _idProveedor) {
     idProveedor = _idProveedor;
   }
-  
+
   set setHasIniciadoSesion(bool _hasIniciadoSesion) {
     hasIniciadoSesion = _hasIniciadoSesion;
   }
@@ -118,22 +116,7 @@ class PaqueteSubida {
         .getPublicUrl('misImagenes/${user?.id}/my-image-$idUnico.jpg');
 
     urlFoto = publicUrlResponse;
-    print("url: pito $urlFoto");
 
     subirDatos();
-  }
-
-  Future<void> probarListaFavoritoss() async {
-    final user = supabase.auth.currentUser?.id;
-    print(user);
-    print("pìto");
-
-    final datos = await supabase
-        .from('favoritos2')
-        .select(
-            'id_user, productos(correo,titulo,descripcion,productoTipo,rutaurl)')
-        .eq('id_user', user!);
-
-    print(datos);
   }
 }

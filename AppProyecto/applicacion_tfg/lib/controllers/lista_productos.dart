@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:applicacion_tfg/models/modelo_subir_producto.dart';
-import 'package:applicacion_tfg/main.dart'; // Asegúrate de importar supabase
-import 'package:go_router/go_router.dart';
+import 'package:applicacion_tfg/models/modelo_subir_producto.dart'; // Importa el modelo de subir producto
+import 'package:applicacion_tfg/main.dart'; // Importa supabase para acceder a la base de datos
+import 'package:go_router/go_router.dart'; // Importa GoRouter para la navegación
 
 class Lista extends StatefulWidget {
-  final PaqueteSubida claseCompartida;
+  final PaqueteSubida claseCompartida; // Instancia compartida de PaqueteSubida
   Lista({required this.claseCompartida});
 
   @override
@@ -12,29 +12,36 @@ class Lista extends StatefulWidget {
 }
 
 class _ListaState extends State<Lista> {
-  List<Map<String, dynamic>> items = [];
+  List<Map<String, dynamic>> items = []; // Lista para almacenar los productos
 
+  // Función asíncrona para obtener y mostrar la lista de productos
   Future<void> probarListas() async {
-    final datos = await supabase.from('productos').select();
+    final datos = await supabase
+        .from('productos')
+        .select(); // Consulta todos los productos
 
     setState(() {
-      items = List<Map<String, dynamic>>.from(datos);
+      items = List<Map<String, dynamic>>.from(
+          datos); // Actualiza la lista de items con los datos obtenidos
     });
   }
 
   @override
   void initState() {
     super.initState();
-    probarListas();
+    probarListas(); // Llama a la función para obtener la lista de productos al inicializar el estado
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: probarListas,
+        onRefresh:
+            probarListas, // Función para refrescar la lista al hacer scroll hacia abajo
         child: items.isEmpty
-            ? Center(child: CircularProgressIndicator())
+            ? Center(
+                child:
+                    CircularProgressIndicator()) // Muestra un indicador de carga si no hay productos
             : GridView.extent(
                 maxCrossAxisExtent: 200.0,
                 mainAxisSpacing: 8.0,
@@ -43,7 +50,9 @@ class _ListaState extends State<Lista> {
                 children: items.map((item) {
                   return GestureDetector(
                     onTap: () {
-                      context.push('/pantallaProducto', extra: item);
+                      context.push('/pantallaProducto',
+                          extra:
+                              item); // Navega a la pantalla de producto al hacer tap
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -63,7 +72,8 @@ class _ListaState extends State<Lista> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(7),
                             child: Image.network(
-                              item['rutaurl'] ?? '',
+                              item['rutaurl'] ??
+                                  '', // Muestra la imagen del producto o un ícono de error si no está disponible
                               height: 100,
                               width: 130,
                               fit: BoxFit.cover,
@@ -81,7 +91,8 @@ class _ListaState extends State<Lista> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              item['titulo'] ?? 'No Title',
+                              item['titulo'] ??
+                                  'No Title', // Muestra el título del producto o un texto predeterminado si no hay título
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -97,7 +108,8 @@ class _ListaState extends State<Lista> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              item['descripcion'] ?? 'No Description',
+                              item['descripcion'] ??
+                                  'No Description', // Muestra la descripción del producto o un texto predeterminado si no hay descripción
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
