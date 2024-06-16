@@ -264,15 +264,17 @@ class _PantallaSubirProductoState extends State<PantallaSubirProducto> {
 
                           producto = experiencia;
 
-                          texto =
-                              "Autor: $correo \n Titulo: $textoTitulo \n Descripcion: $textoDescripcion \n Producto: $producto \n RutaImagen: $archivoImagen \n NombreImagen: $nombreArchivo \n Ubicacion Coord: $ubicacionSeleccionada";
-
+  
                           if (textoTitulo?.isNotEmpty == true &&
                               textoDescripcion?.isNotEmpty == true &&
                               archivoImagen != null &&
                               nombreArchivo != null &&
-                              ubicacionSeleccionada != null) {
-                            correo = paqueteSubida.getCorreo;
+                              ubicacionSeleccionada != null ) {
+
+                                correo = paqueteSubida.getCorreo;
+
+                                texto =
+                              "Autor: $correo \nTitulo: $textoTitulo \nDescripcion: $textoDescripcion \nProducto: $producto \nRutaImagen: $archivoImagen \nNombreImagen: $nombreArchivo \nUbicacion Coord: $ubicacionSeleccionada";
 
                             paqueteSubida.setTitulo = textoTitulo!;
                             paqueteSubida.setDescripcion = textoDescripcion!;
