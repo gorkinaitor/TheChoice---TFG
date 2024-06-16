@@ -119,7 +119,7 @@ class _PantallaProductoState extends State<PantallaProducto> {
                     userId: supabase.auth.currentSession!.user.id,
                     productoId: producto['id'],
                   ),
-                  //Icono que permite ser clickado e inicia una conversación con el proovedor de ese producto
+                  //Icono que permite ser clickado e inicia una conversación con el proveedor de ese producto
                   SizedBox(height: 8),
                   Align(
                     alignment: Alignment.centerRight,
@@ -130,10 +130,10 @@ class _PantallaProductoState extends State<PantallaProducto> {
                         IconButton(
                           icon: Icon(Icons.message, color: Colors.black),
                           onPressed: () {
-                            //Comprueba si el correo del proovedor es el mismo que el de la sesión actual
+                            //Comprueba si el correo del proveedor es el mismo que el de la sesión actual
                             if (producto['correo'] ==
                                 supabase.auth.currentUser?.email) {
-                              //Acción que muestra una alerta impidiendo el iniciar una conversación si el proovedor es la misma persona que el usuario
+                              //Acción que muestra una alerta impidiendo el iniciar una conversación si el proveedor es la misma persona que el usuario
                               mostrarAlertaUsuarioMismo(context, () {});
                             } else {
                               //Acción que inicia la conversación
